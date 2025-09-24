@@ -356,7 +356,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=";
     const apiKey = "";
     const headers = { 'Content-Type': 'application/json' };
-
+    
     const sections = document.querySelectorAll('.section-container');
     const navLinks = document.querySelectorAll('.nav-link');
     const mobileNav = document.getElementById('mobile-nav');
@@ -410,6 +410,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const callGeminiApi = async (messages, callback) => {
         const payload = { contents: messages };
+        if (!apiKey) {
+            console.log("APIキーが設定されていません。デモ機能が有効になります。");
+            const dummyResponses = {
+                'initial': '素晴らしいWillとMustをお持ちですね。この2つの間には、情熱を具体的な行動に繋げるための道筋というギャップがあります。まずは「Must」の中で「Will」に繋がる小さな一歩を見つけ、実行してみましょう。それが大きな変化へと繋がりますよ。',
+                'followup': 'その問いかけはとても重要です。具体的なステップとしては、まず上司と「Will」について共有することから始めましょう。次に、その「Will」を活かせる業務のアイデアを3つほど考えてみてください。それが次の対話のきっかけになります。'
+            };
+            const isInitial = messages.length === 1;
+            const text = isInitial ? dummyResponses.initial : dummyResponses.followup;
+            setTimeout(() => callback(text), 1500);
+            return;
+        }
         try {
             const response = await fetch(GEMINI_API_URL + apiKey, {
                 method: 'POST',
@@ -486,6 +497,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 parts: [{ text: `あなたは人事コンサルタントとして、上司が部下と話す際に役立つアドバイスを提供します。以下の部下からの相談内容に対し、離職防止の観点から、部下のWill（やりたいこと）を今の会社や部署のMust（やるべきこと）に結びつけるための、具体的な問いかけを複数提案してください。この対話の目的は、部下のWillを現在の環境でどう実現するかを共に考えることです。転職や異動など、環境を変えることを直接的に示唆するアドバイスは避けてください。話し方は優しく、部下が安心して話せるような、共感的なトーンを心がけてください。相談内容：${problemContent}` }]
             }]
         };
+
+        if (!apiKey) {
+            console.log("APIキーが設定されていません。デモ機能が有効になります。");
+            const dummyResponse = `「最近、仕事が退屈なんですね。話してくれてありがとう。そう感じてしまう背景をもう少し聞かせてもらってもいいですか？」と、まずは丁寧に話を聞く姿勢を示しましょう。\n\nその上で、以下の問いかけを試してみてください。\n\n1.「これまでの仕事で、どんな時に一番ワクワクしたり、楽しいと感じましたか？」\n→部下の「Will」のヒントを探ります。\n\n2.「そのワクワク感を、今の仕事や会社のどんな部分で活かせそうだと思いますか？」\n→部下のWillと会社のMustを繋ぐ接点を一緒に考えます。\n\n3.「今後、どんなスキルを身につけたら、そのワクワク感がもっと深まると思いますか？」\n→部下の「Can」を強化するための具体的な行動を促します。`;
+            setTimeout(() => {
+                dialogueText.innerHTML = dummyResponse.replace(/\n/g, '<br>');
+                dialogueResult.classList.remove('hidden');
+                dialogueLoading.classList.add('hidden');
+            }, 1500);
+            return;
+        }
 
         try {
             const response = await fetch(GEMINI_API_URL + apiKey, {
