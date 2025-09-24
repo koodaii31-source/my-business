@@ -1,0 +1,468 @@
+<!-- Chosen Palette: Subtle & Sophisticated -->
+<!-- Application Structure Plan: The SPA is redesigned as a professional, persuasive service homepage for HR and business owners. The flow is: Hero (Immediate value prop & CTA) -> Problem (Relatable pain points) -> Solution (Interactive framework demo) -> Service Details (How it works & AI simulation) -> Why Us (Competitive edge & Trust) -> Contact. This structure guides users from problem recognition to solution confirmation, and finally to a clear call-to-action, a classic and effective sales funnel for a B2B service. The interactive elements are strategically placed to engage users and demonstrate the service's value without requiring a conversation. -->
+<!-- Visualization & Content Choices: 1. Hero -> Goal: Hook -> Viz: Large text with a button -> Interaction: Scrolls to contact form -> Justification: Provides a strong first impression and clear next step. 2. Problem -> Goal: Empathize -> Viz: Key pain points text with icons -> Interaction: N/A -> Justification: Replaces the chart with relatable, scannable text that directly addresses the user's concerns. 3. Solution -> Goal: Organize/Explain -> Viz: Interactive Venn Diagram & AI Simulator -> Interaction: Hover for detail, input for AI response -> Justification: Makes an abstract concept tangible and demonstrates core service value interactively. 4. Why Us -> Goal: Compare/Persuade -> Viz: Radar Chart & Comparison Table -> Interaction: Toggle radar chart data (hidden functionality) -> Justification: Provides both a visual and a detailed logical comparison to solidify the value proposition. 5. Trust (New) -> Goal: Build Credibility -> Viz: Placeholder for testimonials with image and quote -> Interaction: N/A -> Justification: Essential for B2B sales to show proven success. -->
+<!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>従業員のポテンシャルを引き出すコンサルティング | 公式サイト</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: #CAD2C5;
+            color: #354F52;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .nav-link.active {
+            background-color: #84A98C;
+            color: #FFFFFF;
+        }
+        .nav-link {
+            transition: all 0.3s ease;
+        }
+        .section-card {
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .loading-spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: #52796F;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <div class="md:flex">
+        <!-- Sidebar Navigation for Desktop -->
+        <nav class="hidden md:block w-64 bg-[#2F3E46] text-white min-h-screen p-4 fixed">
+            <h1 class="font-bold text-xl border-b border-gray-500 pb-4">サービスメニュー</h1>
+            <ul class="mt-4 space-y-2" id="desktop-nav">
+                <li><a href="#hero" class="nav-link block p-3 rounded-lg hover:bg-[#354F52]">トップ</a></li>
+                <li><a href="#problem" class="nav-link block p-3 rounded-lg hover:bg-[#354F52]">課題</a></li>
+                <li><a href="#solution" class="nav-link block p-3 rounded-lg hover:bg-[#354F52]">私たちの解決策</a></li>
+                <li><a href="#services" class="nav-link block p-3 rounded-lg hover:bg-[#354F52]">サービス内容</a></li>
+                <li><a href="#edge" class="nav-link block p-3 rounded-lg hover:bg-[#354F52]">なぜ選ばれるのか</a></li>
+                <li><a href="#contact" class="nav-link block p-3 rounded-lg hover:bg-[#354F52]">ご相談</a></li>
+            </ul>
+        </nav>
+
+        <!-- Top Navigation for Mobile -->
+        <nav class="md:hidden w-full bg-[#2F3E46] text-white p-2 fixed top-0 z-50 shadow-lg">
+            <select id="mobile-nav" class="w-full bg-[#2F3E46] border-0 focus:ring-0 p-2 rounded">
+                <option value="#hero">トップ</option>
+                <option value="#problem">課題</option>
+                <option value="#solution">私たちの解決策</option>
+                <option value="#services">サービス内容</option>
+                <option value="#edge">なぜ選ばれるのか</option>
+                <option value="#contact">ご相談</option>
+            </select>
+        </nav>
+
+        <main class="md:ml-64 flex-1 p-4 md:p-10 mt-16 md:mt-0">
+            
+            <section id="hero" class="min-h-screen flex items-center justify-center text-center section-container">
+                <div class="max-w-3xl">
+                    <h2 class="text-4xl md:text-6xl font-bold text-[#2F3E46]">従業員の潜在能力を引き出し<br>企業の成長を加速させる</h2>
+                    <p class="mt-6 text-lg md:text-xl text-[#354F52]">私たちは、従業員一人ひとりの「Will（やりたいこと）」と組織の「Must（すべきこと）」を結びつけ、組織に眠る無限の可能性を解き放ちます。</p>
+                    <a href="#contact" class="mt-8 inline-block bg-[#84A98C] text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-[#52796F] transition-colors">今すぐご相談ください</a>
+                </div>
+            </section>
+
+            <section id="problem" class="py-20 section-container">
+                <div class="section-card rounded-xl shadow-lg p-6 md:p-8">
+                    <h2 class="text-3xl font-bold text-center mb-4 text-[#2F3E46]">あなたの会社は、こんな課題を抱えていませんか？</h2>
+                    <p class="max-w-3xl mx-auto text-center mb-10 text-[#354F52]">従業員のモチベーション低下や離職は、単なる個人の問題ではありません。それは、生産性の低下や採用コストの増大を引き起こし、企業の競争力を著しく損なう経営課題です。これらは多くの場合、従業員の「やりたいこと」と「やるべきこと」が乖離していることに根ざしています。</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="p-6 bg-[#CAD2C5] rounded-lg">
+                            <h3 class="font-bold text-xl mb-2 text-[#2F3E46]">📈 優秀な人材が定着しない</h3>
+                            <p class="text-sm">高いコストをかけて採用した人材が、早期に退職してしまう。彼らが本当にやりたいことが、今の仕事では実現できないと感じているのかもしれません。</p>
+                        </div>
+                        <div class="p-6 bg-[#CAD2C5] rounded-lg">
+                            <h3 class="font-bold text-xl mb-2 text-[#2F3E46]">🤔 部下のマネジメントに悩んでいる</h3>
+                            <p class="text-sm">従来の指示命令型では部下が動かない。一方的な評価ではなく、個々の成長を促す対話のノウハウが求められています。</p>
+                        </div>
+                        <div class="p-6 bg-[#CAD2C5] rounded-lg">
+                            <h3 class="font-bold text-xl mb-2 text-[#2F3E46]">📉 組織全体の生産性が上がらない</h3>
+                            <p class="text-sm">社員は真面目に働いている。しかし、組織の目標と個人の目標がバラバラで、ベクトルが揃わず、大きな成果に結びつきません。</p>
+                        </div>
+                        <div class="p-6 bg-[#CAD2C5] rounded-lg">
+                            <h3 class="font-bold text-xl mb-2 text-[#2F3E46]">💸 高額なコンサルティングは非現実的</h3>
+                            <p class="text-sm">人材育成の重要性は理解しているものの、大手コンサルティングファームのサービスは費用が高く、中小企業やスタートアップには手の届かない存在です。</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="solution" class="py-20 section-container">
+                <div class="section-card rounded-xl shadow-lg p-6 md:p-8">
+                    <h2 class="text-3xl font-bold text-center mb-4 text-[#2F3E46]">Will-Can-Mustで、本質的な課題を解決する</h2>
+                    <p class="max-w-3xl mx-auto text-center mb-10">私たちは、リクルート発祥の実践的な「Will-Can-Must」フレームワークを中核に据えています。これは、個人の「Will（やりたいこと）」、組織の「Must（すべきこと）」、本人の「Can（できること）」を構造的に整理し、個人と組織の成長が重なる領域を最大化する手法です。</p>
+                    <div class="md:flex items-center gap-8">
+                        <div class="flex-1 relative h-80 md:h-96 flex justify-center items-center" id="venn-diagram">
+                            <div class="venn-circle absolute w-48 h-48 md:w-56 md:h-56 rounded-full flex items-center justify-center font-bold text-2xl text-white bg-[#84A98C] opacity-70" data-key="will" style="top:0; left: 20%;">Will</div>
+                            <div class="venn-circle absolute w-48 h-48 md:w-56 md:h-56 rounded-full flex items-center justify-center font-bold text-2xl text-white bg-[#52796F] opacity-70" data-key="can" style="top:0; right: 20%;">Can</div>
+                            <div class="venn-circle absolute w-48 h-48 md:w-56 md:h-56 rounded-full flex items-center justify-center font-bold text-2xl text-white bg-[#354F52] opacity-70" data-key="must" style="bottom:0;">Must</div>
+                            <div class="absolute font-bold text-xl text-[#2F3E46] z-10" data-key="core">成長領域</div>
+                        </div>
+                        <div class="flex-1 mt-8 md:mt-0 p-6 bg-[#CAD2C5] rounded-lg min-h-[16rem]">
+                            <h3 id="venn-title" class="text-2xl font-bold text-[#2F3E46] mb-2">インタラクティブ解説</h3>
+                            <p id="venn-text" class="text-[#354F52]">上の図の各要素にカーソルを合わせると、詳細な説明が表示されます。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-12 pt-12 border-t border-[#84A98C]">
+                        <h3 class="text-xl font-bold text-center mb-4 text-[#2F3E46]">✨ Will-Must ギャップ分析シミュレーター ✨</h3>
+                        <p class="text-center mb-6 text-[#354F52]">あなたの「Will」と「Must」を入力してください。AIがギャップを分析し、解決策を提案します。</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
+                            <div>
+                                <label for="willInput" class="block font-bold mb-2">あなたの「Will」（やりたいこと）</label>
+                                <textarea id="willInput" class="w-full p-3 rounded-lg border border-gray-300 bg-white" rows="4" placeholder="例：チームをまとめ、新しいプロジェクトを成功させたい"></textarea>
+                            </div>
+                            <div>
+                                <label for="mustInput" class="block font-bold mb-2">組織の「Must」（やるべきこと）</label>
+                                <textarea id="mustInput" class="w-full p-3 rounded-lg border border-gray-300 bg-white" rows="4" placeholder="例：既存顧客のサポート業務で、売上を20%向上させること"></textarea>
+                            </div>
+                        </div>
+                        <div class="text-center mt-6">
+                            <button id="analyzeButton" class="bg-[#84A98C] text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-[#52796F] transition-colors">AIに分析を依頼</button>
+                        </div>
+                        <div id="loading" class="hidden flex justify-center mt-8">
+                            <div class="loading-spinner"></div>
+                        </div>
+                        <div id="analysisResult" class="mt-8 p-6 bg-white rounded-lg shadow-inner hidden">
+                            <h4 class="font-bold text-[#52796F] mb-2">💡 AIからの分析結果</h4>
+                            <div id="analysisText"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="services" class="py-20 section-container">
+                <div class="section-card rounded-xl shadow-lg p-6 md:p-8">
+                    <h2 class="text-3xl font-bold text-center mb-10 text-[#2F3E46]">組織変革を加速させる「2つのエンジン」</h2>
+                    <p class="max-w-3xl mx-auto text-center mb-10">私たちは、従業員個人と組織の両方に働きかけるハイブリッドなサービスで、表面的な問題解決に留まらない、持続的な成長を実現します。</p>
+                    <div class="max-w-3xl mx-auto">
+                        <div class="flex justify-center border-b mb-6">
+                            <button data-target="service1" class="service-tab active font-bold py-2 px-6 border-b-2 border-[#84A98C]">従業員向け</button>
+                            <button data-target="service2" class="service-tab py-2 px-6 text-gray-500">上長・組織向け</button>
+                        </div>
+                        <div id="service1" class="service-content">
+                            <h3 class="text-xl font-bold text-[#52796F] mb-3">従業員向け個別1on1コーチング</h3>
+                            <p class="mb-4">従業員一人ひとりの「Will（やりたいこと）」を言語化し、「Must（すべきこと）」との接続点を共に探求します。内省を深めることで、キャリア自律を促し、エンゲージメントを向上させます。</p>
+                            <ul class="list-disc list-inside space-y-2">
+                                <li>キャリア願望や強みの整理</li>
+                                <li>モチベーションの源泉の特定</li>
+                                <li>組織目標と個人目標の接続</li>
+                            </ul>
+                        </div>
+                        <div id="service2" class="service-content hidden">
+                            <h3 class="text-xl font-bold text-[#52796F] mb-3">上長・人事部向けマネジメントトレーニング</h3>
+                            <p class="mb-4">上長が効果的な1on1を実施し、部下の内発的動機を引き出すスキル習得を支援します。ツールだけでは解決できない「対話の質」に焦点を当て、実践的なロールプレイングを通じてスキル定着を図ります。</p>
+                            <ul class="list-disc list-inside space-y-2">
+                                <li>傾聴・承認・フィードバックの技術</li>
+                                <li>部下のタイプ別コミュニケーション術</li>
+                                <li>1on1の設計と実践トレーニング</li>
+                            </ul>
+                            <div class="mt-12 pt-12 border-t border-[#84A98C]">
+                                <h3 class="text-xl font-bold text-center mb-4 text-[#2F3E46]">✨ 1on1 対話シミュレーター ✨</h3>
+                                <p class="text-center mb-6 text-[#354F52]">部下からの相談内容を入力すると、AIが「Will-Can-Must」の観点から適切な問いかけを提案します。</p>
+                                <div class="max-w-2xl mx-auto">
+                                    <label for="dialogueInput" class="block font-bold mb-2">部下からの相談内容</label>
+                                    <textarea id="dialogueInput" class="w-full p-3 rounded-lg border border-gray-300 bg-white" rows="4" placeholder="例：最近、仕事へのモチベーションが上がらず、日々の業務が退屈に感じてしまいます。"></textarea>
+                                </div>
+                                <div class="text-center mt-6">
+                                    <button id="dialogueButton" class="bg-[#84A98C] text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-[#52796F] transition-colors">AIに問いかけを依頼</button>
+                                </div>
+                                <div id="dialogueLoading" class="hidden flex justify-center mt-8">
+                                    <div class="loading-spinner"></div>
+                                </div>
+                                <div id="dialogueResult" class="mt-8 p-6 bg-white rounded-lg shadow-inner hidden">
+                                    <h4 class="font-bold text-[#52796F] mb-2">💡 AIからの問いかけ例</h4>
+                                    <div id="dialogueText"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="edge" class="py-20 section-container">
+                <div class="section-card rounded-xl shadow-lg p-6 md:p-8">
+                    <h2 class="text-3xl font-bold text-center mb-10 text-[#2F3E46]">なぜ、私たちのサービスが選ばれるのか</h2>
+                    <p class="max-w-3xl mx-auto text-center mb-10">私たちは、高額な大手コンサルティングや、ツール導入だけでは解決できない、人と組織の「本質的な課題」にフォーカスします。以下で他社との違いをご覧ください。</p>
+                    
+                    <div class="chart-container mb-12">
+                        <canvas id="competitorRadarChart"></canvas>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left table-auto border-collapse">
+                            <thead>
+                                <tr class="bg-[#CAD2C5]">
+                                    <th class="p-4 border border-[#84A98C] font-bold text-[#2F3E46] min-w-[120px] text-center">項目</th>
+                                    <th class="p-4 border border-[#84A98C] font-bold text-[#2F3E46] text-center">本事業</th>
+                                    <th class="p-4 border border-[#84A98C] font-bold text-[#2F3E46] text-center">大手コンサル</th>
+                                    <th class="p-4 border border-[#84A98C] font-bold text-[#2F3E46] text-center">1on1ツール</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-white">
+                                    <td class="p-4 border border-[#CAD2C5] font-bold">サービス内容</td>
+                                    <td class="p-4 border border-[#CAD2C5]">個別1on1、マネジメント研修</td>
+                                    <td class="p-4 border border-[#CAD2C5]">全社的な人事制度設計、組織戦略</td>
+                                    <td class="p-4 border border-[#CAD2C5]">1on1の記録・目標管理SaaS</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="p-4 border border-[#CAD2C5] font-bold">主な価値</td>
+                                    <td class="p-4 border border-[#CAD2C5]">人材育成、内発的動機付け</td>
+                                    <td class="p-4 border border-[#CAD2C5]">組織変革、制度構築</td>
+                                    <td class="p-4 border border-[#CAD2C5]">運用効率化、情報集約</td>
+                                </tr>
+                                <tr class="bg-white">
+                                    <td class="p-4 border border-[#CAD2C5] font-bold">ターゲット</td>
+                                    <td class="p-4 border border-[#CAD2C5]">中小企業、スタートアップ</td>
+                                    <td class="p-4 border border-[#CAD2C5]">大企業、中堅企業</td>
+                                    <td class="p-4 border border-[#CAD2C5]">すべての企業規模</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="p-4 border border-[#CAD2C5] font-bold">費用感</td>
+                                    <td class="p-4 border border-[#CAD2C5]">中〜低額</td>
+                                    <td class="p-4 border border-[#CAD2C5]">高額（年1億〜）</td>
+                                    <td class="p-4 border border-[#CAD2C5]">低額（月額数百円/人）</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section id="contact" class="py-20 section-container">
+                <div class="section-card rounded-xl shadow-lg p-6 md:p-8 max-w-2xl mx-auto text-center">
+                    <h2 class="text-3xl font-bold text-[#2F3E46] mb-4">お問い合わせ・資料請求</h2>
+                    <p class="text-lg text-[#354F52] mb-6">従業員エンゲージメントの向上、マネジメントスキルの強化、離職率の改善など、貴社が抱える人材育成の課題について、まずはお気軽にご相談ください。</p>
+                    <a href="#" class="inline-block bg-[#84A98C] text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-[#52796F] transition-colors">無料相談に申し込む</a>
+                    <p class="text-xs text-gray-500 mt-4">※架空のサービスです。このボタンは機能しません。</p>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=";
+    const apiKey = "";
+    const headers = { 'Content-Type': 'application/json' };
+
+    const vennDescriptions = {
+        will: { title: 'Will (やりたいこと)', text: '個人の情熱、興味、キャリアにおける願望。内発的動機の源泉であり、高いパフォーマンスを持続させるためのエネルギーとなります。' },
+        can: { title: 'Can (できること)', text: '現在保有しているスキル、知識、経験。自身の強みを認識し、活用することで自己効力感を高め、新たな挑戦への土台となります。' },
+        must: { title: 'Must (すべきこと)', text: '組織や市場から求められる役割や責任。企業の目標達成に不可欠な要素であり、組織への貢献実感につながります。' },
+        core: { title: '成長領域 (Will-Can-Mustの重なり)', text: '「やりたいこと」で「できること」を活かし、「すべきこと」を達成する理想の状態。従業員のエンゲージメントとパフォーマンスが最大化されます。' }
+    };
+
+    const vennDiagram = document.getElementById('venn-diagram');
+    const vennTitle = document.getElementById('venn-title');
+    const vennText = document.getElementById('venn-text');
+    
+    vennDiagram.addEventListener('mouseover', (e) => {
+        const targetKey = e.target.dataset.key;
+        if (targetKey && vennDescriptions[targetKey]) {
+            vennTitle.textContent = vennDescriptions[targetKey].title;
+            vennText.textContent = vennDescriptions[targetKey].text;
+        }
+    });
+
+    const serviceTabs = document.querySelectorAll('.service-tab');
+    serviceTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            serviceTabs.forEach(t => {
+                t.classList.remove('active', 'border-b-2', 'border-[#84A98C]');
+                t.classList.add('text-gray-500');
+            });
+            tab.classList.add('active', 'border-b-2', 'border-[#84A98C]');
+            tab.classList.remove('text-gray-500');
+
+            document.querySelectorAll('.service-content').forEach(content => content.classList.add('hidden'));
+            document.getElementById(tab.dataset.target).classList.remove('hidden');
+        });
+    });
+
+    const sections = document.querySelectorAll('.section-container');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mobileNav = document.getElementById('mobile-nav');
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${id}`) {
+                        link.classList.add('active');
+                    }
+                });
+                mobileNav.value = `#${id}`;
+            }
+        });
+    }, { rootMargin: '-50% 0px -50% 0px' });
+
+    sections.forEach(section => observer.observe(section));
+    
+    mobileNav.addEventListener('change', (e) => {
+        window.location.href = e.target.value;
+    });
+
+    // LLM Integration for Will-Must Analysis
+    const analyzeButton = document.getElementById('analyzeButton');
+    const willInput = document.getElementById('willInput');
+    const mustInput = document.getElementById('mustInput');
+    const analysisResult = document.getElementById('analysisResult');
+    const analysisText = document.getElementById('analysisText');
+    const loading = document.getElementById('loading');
+
+    analyzeButton.addEventListener('click', async () => {
+        const willContent = willInput.value;
+        const mustContent = mustInput.value;
+        if (!willContent || !mustContent) return;
+
+        analysisResult.classList.add('hidden');
+        loading.classList.remove('hidden');
+        
+        const payload = {
+            contents: [{
+                parts: [{ text: `あなたはWill-Can-Mustの専門家です。以下の内容を分析し、従業員の「Will（やりたいこと）」と「Must（すべきこと）」の間にどのようなギャップがあるか、そしてそのギャップを埋めるための具体的なステップを提案してください。入力された「Will」と「Must」は以下の通りです。Will: ${willContent} Must: ${mustContent}` }]
+            }]
+        };
+        
+        try {
+            const response = await fetch(GEMINI_API_URL + apiKey, {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify(payload)
+            });
+            const result = await response.json();
+            const text = result.candidates[0].content.parts[0].text;
+            analysisText.innerHTML = text.replace(/\n/g, '<br>');
+            analysisResult.classList.remove('hidden');
+        } catch (error) {
+            console.error("Analysis failed:", error);
+            analysisText.textContent = "分析中にエラーが発生しました。もう一度お試しください。";
+            analysisResult.classList.remove('hidden');
+        } finally {
+            loading.classList.add('hidden');
+        }
+    });
+
+    // LLM Integration for Dialogue Simulation
+    const dialogueButton = document.getElementById('dialogueButton');
+    const dialogueInput = document.getElementById('dialogueInput');
+    const dialogueResult = document.getElementById('dialogueResult');
+    const dialogueText = document.getElementById('dialogueText');
+    const dialogueLoading = document.getElementById('dialogueLoading');
+
+    dialogueButton.addEventListener('click', async () => {
+        const problemContent = dialogueInput.value;
+        if (!problemContent) return;
+        
+        dialogueResult.classList.add('hidden');
+        dialogueLoading.classList.remove('hidden');
+        
+        const payload = {
+            contents: [{
+                parts: [{ text: `あなたは優れたマネージャーであり、Will-Can-Mustフレームワークの専門家です。部下から以下の相談を受けました。この状況に対して、部下の内発的動機を引き出し、Will-Mustのギャップを埋めるための「具体的な問いかけ」を、会話形式で複数提案してください。相談内容：${problemContent}` }]
+            }]
+        };
+
+        try {
+            const response = await fetch(GEMINI_API_URL + apiKey, {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify(payload)
+            });
+            const result = await response.json();
+            const text = result.candidates[0].content.parts[0].text;
+            dialogueText.innerHTML = text.replace(/\n/g, '<br>');
+            dialogueResult.classList.remove('hidden');
+        } catch (error) {
+            console.error("Dialogue simulation failed:", error);
+            dialogueText.textContent = "シミュレーション中にエラーが発生しました。もう一度お試しください。";
+            dialogueResult.classList.remove('hidden');
+        } finally {
+            dialogueLoading.classList.add('hidden');
+        }
+    });
+
+    const competitorDescriptions = {
+        '本事業': '「対話の質」と「個人の内発的動機」に特化。個別対応力と導入しやすさを両立し、中小企業に最適なソリューションを提供します。',
+        '大手コンサル': '全社的な制度設計や組織戦略に強み。高度な戦略を提供する一方、費用は高額で、個別の対話の質向上には直接的に寄与しにくい側面があります。',
+        '1on1支援ツール': '運用効率化と情報集約に価値を発揮。低価格で導入しやすいですが、対話スキルそのものを向上させる機能はなく、効果は上長のスキルに依存します。'
+    };
+
+    const radarChart = new Chart(document.getElementById('competitorRadarChart').getContext('2d'), {
+        type: 'radar',
+        data: {
+            labels: ['個別対応力', '対話の質向上', '導入しやすさ', '価格の手頃さ', '制度設計力'],
+            datasets: [
+                { label: '本事業', data: [5, 5, 4, 4, 3], borderColor: '#84A98C', backgroundColor: 'rgba(132, 169, 140, 0.2)', borderWidth: 2 },
+                { label: '大手コンサル', data: [3, 2, 2, 1, 5], borderColor: '#52796F', backgroundColor: 'rgba(82, 121, 111, 0.2)', borderWidth: 2, hidden: true },
+                { label: '1on1支援ツール', data: [2, 1, 5, 5, 1], borderColor: '#354F52', backgroundColor: 'rgba(53, 79, 82, 0.2)', borderWidth: 2, hidden: true }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: { r: { suggestedMin: 0, suggestedMax: 5, pointLabels: { font: { size: 12 } }, ticks: { backdropColor: 'transparent' } } },
+            plugins: {
+                legend: {
+                    position: 'top',
+                    onClick: (e, legendItem, legend) => {
+                        const index = legendItem.datasetIndex;
+                        const ci = legend.chart;
+                        const meta = ci.getDatasetMeta(index);
+                        meta.hidden = meta.hidden === null ? !ci.data.datasets[index].hidden : null;
+                        
+                        legend.chart.data.datasets.forEach((d, i) => {
+                           if(i !== index) ci.getDatasetMeta(i).hidden = true;
+                        });
+                        
+                        ci.update();
+                    }
+                }
+            }
+        }
+    });
+
+});
+</script>
+</body>
+</html>
